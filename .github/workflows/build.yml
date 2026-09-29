@@ -14,7 +14,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential binutils-arm-none-eabi libpng-dev python3-pil
+          sudo apt-get install -y build-essential binutils-arm-none-eabi libpng-dev python3-pil libmgba-dev
       - name: Test every front and back frame
         run: python3 tests/test_three_poses.py
       - name: Build compatible compiler
@@ -26,6 +26,10 @@ jobs:
           ./install.sh "$GITHUB_WORKSPACE"
       - name: Build ROM
         run: make -j2
+      - name: Emulator boot and input smoke test
+        run: |
+          gcc -O2 tests/smoke_rom.c -o /tmp/smoke-rom -lmgba
+          timeout 120 /tmp/smoke-rom pokeemerald.gba
       - name: Name prototype
         run: cp pokeemerald.gba emerald-three-poses.gba
       - name: Save ROM and checks
@@ -35,4 +39,5 @@ jobs:
           path: |
             emerald-three-poses.gba
             pose-test-report.json
+            smoke-*.ppm
           if-no-files-found: error
