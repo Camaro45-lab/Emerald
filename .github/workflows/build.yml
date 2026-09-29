@@ -1,0 +1,38 @@
+name: Build three-pose Emerald
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential binutils-arm-none-eabi libpng-dev python3-pil
+      - name: Test every front and back frame
+        run: python3 tests/test_three_poses.py
+      - name: Build compatible compiler
+        run: |
+          git clone https://github.com/pret/agbcc.git /tmp/agbcc
+          cd /tmp/agbcc
+          git checkout da598c1d918402c42c0c0d7128ba14567f3175e9
+          ./build.sh
+          ./install.sh "$GITHUB_WORKSPACE"
+      - name: Build ROM
+        run: make -j2
+      - name: Name prototype
+        run: cp pokeemerald.gba emerald-three-poses.gba
+      - name: Save ROM and checks
+        uses: actions/upload-artifact@v4
+        with:
+          name: emerald-three-poses
+          path: |
+            emerald-three-poses.gba
+            pose-test-report.json
+          if-no-files-found: error
