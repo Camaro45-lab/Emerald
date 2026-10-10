@@ -70,6 +70,16 @@ static void FinishThreePoseAnimation(struct Sprite *sprite)
     sprite->callback = next;
 }
 
+bool8 HoldThreePoseFrame(struct Sprite *sprite, u8 frame)
+{
+    u32 id = sprite - gSprites;
+    if (id >= MAX_SPRITES || sPoseStates[id] == NULL || frame > 2)
+        return FALSE;
+    SeekSpriteAnim(sprite, frame);
+    sprite->animPaused = TRUE;
+    return TRUE;
+}
+
 void StartThreePoseAnimation(struct Sprite *sprite, SpriteCallback next)
 {
     struct ThreePoseState *state;

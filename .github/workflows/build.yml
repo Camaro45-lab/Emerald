@@ -32,7 +32,13 @@ jobs:
           timeout 120 /tmp/smoke-rom pokeemerald.gba
       - name: Name prototype
         run: cp pokeemerald.gba emerald-three-poses.gba
+      - name: Test sprite gallery in emulator
+        run: |
+          arm-none-eabi-nm -n pokeemerald.elf > /tmp/emerald-symbols.txt
+          gcc -O2 tests/gallery_rom.c -o /tmp/gallery-rom -lmgba
+          timeout 180 /tmp/gallery-rom pokeemerald.gba /tmp/emerald-symbols.txt
       - name: Save ROM and checks
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: emerald-three-poses
@@ -40,4 +46,5 @@ jobs:
             emerald-three-poses.gba
             pose-test-report.json
             smoke-*.ppm
+            gallery-*.ppm
           if-no-files-found: error
