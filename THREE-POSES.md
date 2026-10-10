@@ -1,7 +1,10 @@
 # Emerald: three-pose prototype source
 
-Status: source implementation, not a verified playable ROM yet. No .gba is
-included. Windows Smart App Control blocked the local compiler/linker.
+Status: ROM built successfully on GitHub Actions on October 10, 2026.
+The compiled pixel tests and a headless mGBA boot/input test passed.
+Download the emerald-three-poses artifact from:
+https://github.com/Camaro45-lab/Emerald/actions/runs/38088323967
+Full battle, save/load and special-form playtesting remains outstanding.
 
 Base: https://github.com/pret/pokeemerald
 Pinned source commit: c587cc9e63f57ecc688adc00513499fc7f747ac6
@@ -32,10 +35,10 @@ Save structures are unchanged, but save compatibility has NOT been playtested.
 4. After a successful run, download the **emerald-three-poses** artifact.
 5. Extract emerald-three-poses.gba and open it in a GBA emulator such as mGBA.
 
-The workflow is manual, has read-only repository permissions, compiles the
-pixel routine and tests all supplied front/back frames, then builds the ROM.
-It has been prepared but has NOT been run. A green build does not substitute
-for the gameplay checks below.
+The workflow runs on pushes to main or manually, has read-only repository
+permissions, compiles and tests the pixel routine, builds the ROM and runs a
+headless mGBA smoke test. A green build does not substitute for the gameplay
+checks below.
 
 ## Build on Linux
 
@@ -60,11 +63,14 @@ game intentionally differs from the original ROM checksum.
   reference map IDs). This is not ARM compilation or linking.
 - reference-audit.json records a Python reference-model asset coverage audit.
   It does not certify execution of the actual C code.
-- tests/test_three_poses.py compiles the actual C routine on Linux and checks
-  distinct buffers, palette indices and output-buffer canaries. Not run here.
-- No emulator boot, battle, save/load, or memory-pressure tests completed.
+- tests/test_three_poses.py passed for 1,214 nonblank source frames across 830
+  front/back sheets, checking distinct buffers, palette indices and output
+  buffer canaries with the actual compiled C routine.
+- mGBA executed 4,200 frames with simulated Start/A input. Captured screens
+  show the title sequence and Professor Birch's introduction.
+- Battle, save/load, special-form and memory-pressure playtests are pending.
 
-Before calling this playable, test a new game, starter battle, double battle,
+Before treating this prototype as fully tested, check a new game, starter battle, double battle,
 rapid summary navigation and closing it mid-animation, evolution, catching,
 save/load, all Castform weather forms, Deoxys, Spinda and Unown.
 
