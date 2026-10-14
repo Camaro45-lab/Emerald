@@ -1,5 +1,22 @@
 # Emerald: three-pose prototype source
 
+## Sprite Gallery (October 13, 2026)
+
+Choose SPRITE GALLERY directly below NEW GAME. No saved game is required.
+Left/Right changes species; Up/Down jumps ten; Select switches front/back;
+A replays; L/R holds one of three poses; Start toggles shiny; B returns.
+These are GBA buttons, using the keyboard mappings in your emulator.
+In mGBA, hold Tab for fast-forward or use Shift+Tab to toggle it.
+
+Build 38494548981 passed the pixel tests, ROM boot test and gallery emulator
+test: all 386 front and 386 back sprites, distinct held poses, replay cleanup,
+shiny toggle, ten-species jumps, exit cleanup, Options and New Game navigation.
+Screenshots were visually checked. Saved-game Continue and optional Mystery
+Gift/Event menu layouts have not been emulator-tested.
+Build: https://github.com/Camaro45-lab/Emerald/actions/runs/38494548981
+
+The notes below describe the original prototype validation before the gallery.
+
 Status: ROM built successfully on GitHub Actions on October 10, 2026.
 The compiled pixel tests and a headless mGBA boot/input test passed.
 Download the emerald-three-poses artifact from:
