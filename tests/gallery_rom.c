@@ -57,8 +57,10 @@ static void frames(unsigned count, unsigned keys)
 
 static void tap(unsigned keys, unsigned wait)
 {
-    frames(2, keys);
-    frames(wait, 0);
+    // Sprite generation can span hardware frames on the GBA CPU. Give
+    // short presses time to be sampled and the resulting picture to settle.
+    frames(6, keys);
+    frames(wait < 30 ? 30 : wait, 0);
 }
 
 static int taskActive(unsigned function)
