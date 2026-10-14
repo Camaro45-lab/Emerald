@@ -4,6 +4,7 @@
 #include "gpu_regs.h"
 #include "main.h"
 #include "main_menu.h"
+#include "menu.h"
 #include "palette.h"
 #include "pokemon.h"
 #include "scanline_effect.h"
